@@ -1,0 +1,30 @@
+#! /bin/bash
+
+if [[ "$#" -lt 2 ]]		
+then
+  echo 'usage: grepdir.sh directory pattern [-grep option]*'
+else
+  if [ ! -d "$1" ]
+  then 
+    echo 'usage: grepdir.sh directory pattern [-grep option]*'
+  else	
+  	if [ -z "$3" ]
+  	then
+		temp1="grep \"$2\" {}"
+		echo $temp1
+  	  find "$1" -exec $temp1 \; 2>/dev/null
+  	elif [[ -n "$3" && "$3" == -* ]]
+  	then
+		#echo " entered case 2"
+		temp2="grep $3 \"$2\""
+		#echo $temp2
+		temp3="find \"$1\""
+		#echo $temp3
+  	  find "$1" -exec grep $3 "$2" {} \; 2>/dev/null
+  	elif [[ -n "$4" && "$4" == -.* ]]
+  	then
+  	  find "$1" -exec grep "$4" "$3" "$2" {} \; 2>/dev/null
+
+  	fi
+  fi
+fi
