@@ -15,14 +15,20 @@ else # initialize Makefile
   echo>>Makefile # adds a new line
   
   # Line 2
-  echo -e -n '\tg++ -ansi -Wall -g -o '"$1">>Makefile
-  for f in *.cpp ; do # for every .cpp file
-    f2=${f%.*}.o
-    echo -n " $f2">>Makefile # appends the new string to the Makefile
-  done # for
-  echo -n '  '>>Makefile
-  echo>>Makefile
-  echo>>Makefile
+  if [[ "$#" == 3 ]]
+  then
+    echo -e -n '\tg++ -ansi -Wall -g -o '"$1" "$2" "$3">>Makefile
+  elif [[ "$#" == 1 ]]
+    then
+      echo -e -n '\tg++ -ansi -Wall -g -o '"$1">>Makefile 
+  fi
+    for f in *.cpp ; do # for every .cpp file
+      f2=${f%.*}.o
+      echo -n " $f2">>Makefile # appends the new string to the Makefile
+    done # for
+    echo -n '  '>>Makefile
+    echo>>Makefile
+    echo>>Makefile
   
   # Line 3+
   for f in *.cpp ; do # for every .cpp file
@@ -40,7 +46,14 @@ else # initialize Makefile
     echo>>Makefile
     
   # Line 4+
-    echo -e -n '\tg++ -ansi -Wall -g -c' "$f">>Makefile
+  if [[ "$#" == 3 ]]
+    then
+    echo -e -n '\tg++ -ansi -Wall -g -c' "$2" "$3" "$f">>Makefile
+  elif [[ "$#" == 1 ]]
+    then
+    echo -e -n '\tg++ -ansi -Wall -g -c' "$f">>Makefile    
+  fi
+    
     echo>>Makefile
     echo>>Makefile
   done
